@@ -1,2 +1,2 @@
 # SeattleOwls-HackRice15
-This is a community Github repository for a 3 person Seattle Owls freshmen HackRice team! We are comprised of 3 members, all hailing from Seattle, Washington: Mike Mao, Ellie Yun, and Darioush Clapp.
+We are a Rice University hackathon team comprised of three freshman engineering students: Mike Mao, Darioush Clapp, and Ellie Yun. Together, we are competing in Rice University's 15th annual hackathon HackRice15. Check out more details on HackRice15 and the different competition tracks here: https://hackrice.com/.
