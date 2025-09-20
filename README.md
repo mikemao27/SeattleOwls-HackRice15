@@ -2,7 +2,9 @@
 
 We are a three person HackRice team comprised of Rice University freshman students studying Computer Science. Much of our team hails from Seattle, Washington hence our team name: SeattleOwls. This is our first university hackathon! To aid us in our hacking, we've pulled much of our code from the HackRice 15 starter code! The repository was designed to give us a head start in building our project, providing a solid foundation for both our backend and frontend development.
 
-For our hack, we've chosen to create a app that, when given the name, expiration date, frequency and amount of each dose of a particular medicine, will alert and remind the patient to take their medicine on time and before the expiration date. Many members on our HackRice team have experienced the pain of forgetting to take a prescribed medicine. The patient shouldn't have to worry about expiration dates, dosage, and when to take a specific medicine. Their goal should be to recover as quickly as possible. Hence, our hack aims to address this particular issue.  
+For our hack, we've chosen to create a app that, when given the name, expiration date, frequency and amount of each dose of a particular medicine, will alert and remind the patient to take their medicine on time and before the expiration date. Many members on our HackRice team have experienced the pain of forgetting to take a prescribed medicine. The patient shouldn't have to worry about expiration dates, dosage, and when to take a specific medicine. Their goal should be to recover as quickly as possible. Hence, our hack aims to address this particular issue.
+
+**Patients taking multiple medications for a wide range of conditions (diseases, allergies, etc.) need a way to effectively keep track of drug experiation dates, dosages, and when to take each specific medication because 50% of patients do not take their medications as prescribed.** This leads to certain medications never fulfilling their full benefits, which can prevent a patient from properly recovering. These statistics are from a study from the [National Library of Medicine](https://pmc.ncbi.nlm.nih.gov/articles/PMC3068890/).
 
 ## Philosophy
 
