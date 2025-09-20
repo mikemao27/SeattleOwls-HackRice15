@@ -1,0 +1,141 @@
+import { useState, useEffect } from 'react';
+import { Dashboard } from './components/Dashboard';
+import { AddMedicationForm } from './components/AddMedicationForm';
+import { MedicationCard } from './components/MedicationCard';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs';
+import { Toaster } from './components/ui/sonner';
+import { Pill, Plus, Calendar } from 'lucide-react';
+
+interface Medication {
+  id: string;
+  name: string;
+  dosage: string;
+  frequency: number;
+  totalQuantity: number;
+  currentQuantity: number;
+  expirationDate: string;
+  lastTaken?: string;
+  createdAt: string;
+}
+
+export default function App() {
+  const [medications, setMedications] = useState<Medication[]>([]);
+
+  // Load medications from localStorage on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('medications');
+    if (saved) {
+      try {
+        setMedications(JSON.parse(saved));
+      } catch (error) {
+        console.error('Error loading medications:', error);
+      }
+    }
+  }, []);
+
+  // Save medications to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('medications', JSON.stringify(medications));
+  }, [medications]);
+
+  // Request notification permission on mount
+  useEffect(() => {
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission();
+    }
+  }, []);
+
+  const addMedication = (medication: Medication) => {
+    setMedications(prev => [...prev, medication]);
+  };
+
+  const takeMedication = (id: string) => {
+    setMedications(prev =>
+      prev.map(med =>
+        med.id === id
+          ? {
+              ...med,
+              currentQuantity: med.currentQuantity - 1,
+              lastTaken: new Date().toISOString()
+            }
+          : med
+      )
+    );
+  };
+
+  const deleteMedication = (id: string) => {
+    setMedications(prev => prev.filter(med => med.id !== id));
+  };
+
+  return (
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
+        <div className="mb-8">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="p-2 bg-primary rounded-lg">
+              <Pill className="h-6 w-6 text-primary-foreground" />
+            </div>
+            <h1 className="text-3xl">MedTracker</h1>
+          </div>
+          <p className="text-muted-foreground">
+            Keep track of your medications, dosages, and refill reminders all in one place.
+          </p>
+        </div>
+
+        <Tabs defaultValue="dashboard" className="space-y-6">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="dashboard" className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              Dashboard
+            </TabsTrigger>
+            <TabsTrigger value="medications" className="flex items-center gap-2">
+              <Pill className="h-4 w-4" />
+              My Medications
+            </TabsTrigger>
+            <TabsTrigger value="add" className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              Add Medication
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="dashboard">
+            <Dashboard medications={medications} />
+          </TabsContent>
+
+          <TabsContent value="medications">
+            <div className="space-y-6">
+              {medications.length === 0 ? (
+                <div className="text-center py-12">
+                  <Pill className="h-16 w-16 mx-auto mb-4 text-muted-foreground opacity-50" />
+                  <h3 className="text-lg mb-2">No medications yet</h3>
+                  <p className="text-muted-foreground mb-4">
+                    Start by adding your first medication to begin tracking.
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {medications.map(medication => (
+                    <MedicationCard
+                      key={medication.id}
+                      medication={medication}
+                      onTake={takeMedication}
+                      onDelete={deleteMedication}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="add">
+            <div className="max-w-2xl mx-auto">
+              <AddMedicationForm onAdd={addMedication} />
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+      
+      <Toaster />
+    </div>
+  );
+}
